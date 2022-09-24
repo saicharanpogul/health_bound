@@ -6,7 +6,7 @@ export const colors = {
   },
   background: {
     main: '#222222',
-    light: '#000000',
+    light: '#2B2B2B',
     dark: '#000000',
   },
   error: {
@@ -26,7 +26,7 @@ export const colors = {
   },
   text: {
     main: '#F7FAF3',
-    light: '#000000',
+    light: '#B0B0B0',
     dark: '#000000',
   },
   transparent: {

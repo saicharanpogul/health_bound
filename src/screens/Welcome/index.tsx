@@ -1,11 +1,15 @@
 import {Image, Text, View} from 'react-native';
 import React from 'react';
 import {ScaledSheet} from 'react-native-size-matters';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
 import {colors, fontFamily, fontSizes} from '../../theme';
 import {Illustration} from '../../assets/images';
 import {Button} from '../../components/common';
 
-const Welcome = () => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
+
+const Welcome: React.FC<Props> = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Image source={Illustration} style={styles.illustration} />
@@ -15,10 +19,13 @@ const Welcome = () => {
         Bound Tokens” every day.
       </Text>
       <View style={styles.buttons}>
-        <Button title="Create Wallet" onButtonPress={() => {}} />
+        <Button
+          title="Create Wallet"
+          onButtonPress={() => navigation.navigate('BackupMnemonicInfo', {})}
+        />
         <Button
           title="Restore Wallet"
-          onButtonPress={() => {}}
+          onButtonPress={() => navigation.navigate('ImportWallet', {})}
           variant="outline"
         />
       </View>
