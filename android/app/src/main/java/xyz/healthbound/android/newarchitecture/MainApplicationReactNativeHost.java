@@ -1,4 +1,4 @@
-package com.health_bound.newarchitecture;
+package xyz.healthbound.android.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.health_bound.BuildConfig;
-import com.health_bound.newarchitecture.components.MainComponentsRegistry;
-import com.health_bound.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import xyz.healthbound.android.BuildConfig;
+import xyz.healthbound.android.newarchitecture.components.MainComponentsRegistry;
+import xyz.healthbound.android.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

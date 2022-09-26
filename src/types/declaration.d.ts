@@ -29,4 +29,5 @@ type NavigationProps = StackNavigationProp<TabParamList>;
 
 interface ControlFieldValues {
   passcode: string;
+  fullName: string;
 }

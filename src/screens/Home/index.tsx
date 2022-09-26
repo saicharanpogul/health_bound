@@ -14,6 +14,11 @@ import {colors, fontFamily, fontSizes} from '../../theme';
 import {Header} from '../../components/common';
 import {mtoFtIn, mtoKm, wait} from '../../utils';
 import {Stat} from '../../components';
+import {useAppDispatch, useAppSelector} from '../../hooks/useRedux';
+import {
+  getIsAuthorized,
+  setIsAuthorize,
+} from '../../redux/reducers/fitnessTracker';
 
 type Date = {
   stepsToday: number;
@@ -25,6 +30,8 @@ type Date = {
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [data, setDate] = useState<Date>();
+  const dispatch = useAppDispatch();
+  const isAppAuthorized = useAppSelector(getIsAuthorized);
 
   const permissions: AuthorizationPermissions = {
     healthReadPermissions: [
@@ -48,12 +55,15 @@ const Home = () => {
         console.log(error);
       }
     })();
-  }, [refreshing]);
+  }, [refreshing, isAppAuthorized]);
   const getStepsToday = async () => {
-    const authorized = await FitnessTracker.authorize(permissions);
-
-    if (!authorized) {
-      return;
+    if (!isAppAuthorized) {
+      const authorized = await FitnessTracker.authorize(permissions);
+      console.log('Authorized? ', authorized);
+      if (!authorized) {
+        return;
+      }
+      dispatch(setIsAuthorize({isAuthorized: authorized}));
     }
 
     const stepsToday = await FitnessTracker.getStatisticTodayTotal(

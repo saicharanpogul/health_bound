@@ -1,4 +1,4 @@
-package com.health_bound.newarchitecture.modules;
+package xyz.healthbound.android.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

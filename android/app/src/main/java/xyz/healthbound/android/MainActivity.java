@@ -1,4 +1,4 @@
-package com.health_bound;
+package xyz.healthbound.android;
 import expo.modules.ReactActivityDelegateWrapper;
 
 import com.facebook.react.ReactActivity;
