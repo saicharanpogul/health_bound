@@ -1,18 +1,25 @@
-import {Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import {Image, Text, View} from 'react-native';
+import React, {useEffect, useRef} from 'react';
 import {ScaledSheet} from 'react-native-size-matters';
 import * as yup from 'yup';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 
 import {colors, fontFamily, fontSizes} from '../../theme';
-import {Button, Header, Input} from '../../components/common';
+import {BottomSheet, Button, Header, Input} from '../../components/common';
 import {useAppDispatch, useAppSelector} from '../../hooks/useRedux';
 import {getFullName, setFullName} from '../../redux/reducers/profile';
+import {getSBT} from '../../redux/reducers/wallet';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import {isValidAddress, truncateAddress} from '../../utils';
+import _ from 'lodash';
+import {Placeholder} from '../../assets/images';
 
 const Profile = () => {
+  const sbtBottomSheetRef = useRef<RBSheet>();
   const dispatch = useAppDispatch();
   const fullName = useAppSelector(getFullName);
+  const SBT = useAppSelector(getSBT);
   const schema = yup.object().shape({
     fullName: yup.string().required('Full Name is required.'),
   });
@@ -38,8 +45,8 @@ const Profile = () => {
   return (
     <View style={styles.background}>
       <Header title="Profile" />
-      <Text style={styles.subTitle}>About You</Text>
       <View style={styles.container}>
+        <Text style={styles.subTitle}>About You</Text>
         <View style={styles.form}>
           <Input
             control={control}
@@ -51,6 +58,36 @@ const Profile = () => {
             label="Full Name"
           />
         </View>
+        {SBT && (
+          <View style={styles.sbtView}>
+            <Text style={styles.subTitle}>Soul-bound token</Text>
+            <BottomSheet
+              ref={sbtBottomSheetRef}
+              height={180}
+              onPress={() => sbtBottomSheetRef.current?.open()}>
+              <Image
+                defaultSource={Placeholder}
+                style={styles.sbtImage}
+                source={{uri: SBT.offChain.image as string}}
+              />
+              <View>
+                <Text style={styles.metadataTitle}>Metadata</Text>
+                {SBT.offChain.attributes?.map(attribute => (
+                  <View key={attribute.trait_type} style={styles.attributes}>
+                    <Text style={styles.traitType}>
+                      {_.capitalize(attribute.trait_type)}
+                    </Text>
+                    <Text style={styles.traitValue}>
+                      {isValidAddress(attribute.value as string)
+                        ? truncateAddress(attribute.value as string)
+                        : attribute.value}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </BottomSheet>
+          </View>
+        )}
       </View>
       <View style={styles.bottom}>
         <Button onButtonPress={handleSubmit(onSubmit)} title="Save" />
@@ -77,10 +114,39 @@ const styles = ScaledSheet.create({
     color: colors.primary.main,
     fontFamily: fontFamily.normal.medium,
     fontSize: fontSizes[2],
-    paddingHorizontal: '16@s',
     marginTop: '16@s',
   },
   bottom: {
     marginBottom: '16@s',
+  },
+  sbtView: {},
+  sbtImage: {
+    width: '250@s',
+    height: '250@s',
+    borderRadius: '4@s',
+    alignSelf: 'center',
+    marginTop: '16@s',
+  },
+  metadataTitle: {
+    color: colors.text.main,
+    fontFamily: fontFamily.normal.medium,
+    fontSize: fontSizes[2],
+    textAlign: 'center',
+    marginTop: '8@s',
+  },
+  attributes: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: '16@s',
+  },
+  traitType: {
+    color: colors.text.main,
+    fontFamily: fontFamily.normal.medium,
+    fontSize: fontSizes[2],
+  },
+  traitValue: {
+    color: colors.primary.main,
+    fontFamily: fontFamily.normal.medium,
+    fontSize: fontSizes[2],
   },
 });

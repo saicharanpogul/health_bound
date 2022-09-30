@@ -1,25 +1,24 @@
 import React from 'react';
 import {StyleProp, TouchableOpacity, View, ViewStyle} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {ScaledSheet} from 'react-native-size-matters';
+import {scale, ScaledSheet} from 'react-native-size-matters';
 
 import {colors} from '../../theme';
 
 type Props = {
   children: React.ReactNode[];
+  onPress: () => void;
   style?: StyleProp<ViewStyle>;
   height?: number;
 };
 
 const BottomSheet = React.forwardRef<RBSheet, Props>(
-  ({children, style, height}, ref) => {
+  ({children, style, height, onPress}, ref) => {
     return (
-      <TouchableOpacity
-        style={[styles.background, style]}
-        onPress={() => ref!.current!.open()}>
+      <TouchableOpacity style={[styles.background, style]} onPress={onPress}>
         {children[0]}
         <RBSheet
-          height={height}
+          height={scale(height as number)}
           ref={ref}
           closeOnDragDown={true}
           closeOnPressMask={true}
@@ -52,6 +51,6 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
   },
   container: {
-    marginHorizontal: '15@s',
+    marginHorizontal: '16@s',
   },
 });

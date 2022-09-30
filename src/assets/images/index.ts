@@ -1,3 +1,4 @@
-import Illustration from './Illustrations.png';
+import Illustration from './Illustration.png';
+import Placeholder from './Placeholder.png';
 
-export {Illustration};
+export {Illustration, Placeholder};

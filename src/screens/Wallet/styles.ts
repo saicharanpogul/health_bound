@@ -336,4 +336,37 @@ export default ScaledSheet.create({
     fontFamily: fontFamily.normal.semiBold,
     textAlign: 'center',
   },
+  balanceView: {
+    width: '90%',
+    backgroundColor: colors.primary.main,
+    alignSelf: 'center',
+    padding: '20@s',
+    borderRadius: '10@s',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  balanceTitle: {
+    color: colors.text.dark,
+    fontFamily: fontFamily.normal.semiBold,
+    fontSize: fontSizes[1],
+  },
+  balance: {
+    color: colors.text.dark,
+    fontFamily: fontFamily.normal.semiBold,
+    fontSize: fontSizes[4],
+    marginTop: '4@s',
+  },
+  container: {
+    paddingHorizontal: '16@s',
+  },
+  subTitle: {
+    color: colors.text.main,
+    fontFamily: fontFamily.normal.semiBold,
+    fontSize: fontSizes[2],
+    marginTop: '24@s',
+  },
+  bottom: {
+    justifyContent: 'flex-end',
+    marginBottom: '20@s',
+  },
 });

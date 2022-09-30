@@ -17,6 +17,8 @@ import * as splToken from '@solana/spl-token';
 import * as anchor from '@project-serum/anchor';
 import {TOKEN_PROGRAM_ID} from '@solana/spl-token';
 import {Platform} from 'react-native';
+import nacl from 'tweetnacl';
+import {decodeUTF8} from 'tweetnacl-util';
 
 const rpcUrl = clusterApiUrl('devnet');
 
@@ -24,8 +26,9 @@ const host = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2';
 
 const network = `http://${host}:8899`;
 const connection = new Connection(
-  rpcUrl,
+  // rpcUrl,
   // network,
+  'https://metaplex.devnet.rpcpool.com/',
   'confirmed',
 );
 
@@ -335,7 +338,6 @@ class Solana {
   }
 
   static async requestAirdrop(publicKey: PublicKey, amount: number) {
-    console.log(publicKey, amount);
     const airdropSignature = await connection.requestAirdrop(
       publicKey,
       amount * LAMPORTS_PER_SOL,
@@ -364,6 +366,11 @@ class Wallet {
     });
   }
 
+  async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    const messageBytes = decodeUTF8(message.toString());
+    return await nacl.sign.detached(messageBytes, this.payer.secretKey);
+  }
+
   get publicKey() {
     return this.payer.publicKey;
   }
@@ -380,4 +387,5 @@ export {
   deriveSeed,
   network,
   connection,
+  rpcUrl,
 };

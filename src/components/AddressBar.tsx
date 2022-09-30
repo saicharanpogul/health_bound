@@ -35,11 +35,11 @@ const styles = ScaledSheet.create({
     borderRadius: '6@s',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '10@s',
+    // margin: '10@s',
     width: '130@s',
     flexDirection: 'row',
     paddingStart: '8@s',
-    alignSelf: 'flex-end',
+    // alignSelf: 'flex-end',
   },
   address: {
     fontFamily: fontFamily.normal.semiBold,
